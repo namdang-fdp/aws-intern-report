@@ -3,8 +3,6 @@ theme = "hugo-theme-learn"
 baseURL = "https://namdang-fdp.github.io/aws-intern-report/"
 publishDir = "public"
 
-
-
 # For search functionality
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
@@ -43,3 +41,7 @@ identifier = "AWS Study Group FB"
 url = "https://www.facebook.com/groups/awsstudygroupfcj/"
 weight = 20
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
