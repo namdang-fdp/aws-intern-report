@@ -6,24 +6,23 @@ chapter: false
 pre: " <b> 1.1. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
-
 ### Week 1 Objectives:
 
--   Connect and get acquainted with members of First Cloud Journey.
--   Understand basic AWS services, how to use the console & CLI.
+-   Connect and get to know the members of First Cloud Journey.
+-   Form a team to accompany each other during the OJT.
+-   Study and complete the lab for Module 1 in the AWS video series.
+-   Carry out additional research mentioned in Module 1.
+-   Start working on the first personal side project: a web app for posting personal blog articles.
 
 ### Tasks to be carried out this week:
 
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 1   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations - Get connect with my team in FCJ Project - Learn about module 1 : Theory on Youtube              | 08/09/2025 | 08/09/2025      |
-| 2   | - Do lab exercise in module 1                                                                                                                                                                          | 09/09/2025 | 09/09/2025      |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP <br>                              | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Day | Task                                                                                                                                                                                                                                                                                                                            | Start Date | Completion Date | Reference Material                                                                                                                            |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations <br> - Get connect with my team in FCJ Project <br> - Learn about module 1 : Theory on Youtube                                                                                                                             | 09/08/2025 | 09/08/2025      | https://cloudjourney.awsstudygroup.com/ <br> https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i                         |
+| 3   | - Do lab exercise in module 1 <br> - Create AWS Free Tier account <br> - Planning for 1st site project, setup github and init Project <br> - Preparing Hugo for Worklog <br> - Setup Github for auto deploy when I push to my report project repo <br> - Setup with Virtual MFA device <br> - Create admin group and admin user | 09/09/2025 | 09/09/2025      | <https://cloudjourney.awsstudygroup.com/> <br> https://namdang-fdp.github.io/aws-intern-report/ <br> https://github.com/namdang-fdp/self-blog |
+| 4   | - Do 1st site project (FE): Login page and blog list page <br> - Do 1st site project (BE): Setup JWT and login/sign up API, error handler template <br> - Doing lab related to budget in module 1 <br> - Do AWS Well Architected Framework research                                                                             | 09/10/2025 | 09/10/2025      | <https://cloudjourney.awsstudygroup.com/> <br> https://github.com/namdang-fdp/self-blog                                                       |     |
+| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP <br>                                                                                                                                                       | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/>                                                                                                     |
+| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                                                                                                                                              | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/>                                                                                                     |
 
 ### Week 1 Achievements:
 

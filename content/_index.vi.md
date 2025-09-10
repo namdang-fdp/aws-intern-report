@@ -9,15 +9,15 @@ chapter: false
 
 ### Thông tin sinh viên:
 
-&emsp; **Họ và tên:** Nguyễn Văn A
+&emsp; **Họ và tên:** Đặng Phương Nam
 
-&emsp; **Số điện thoại:** 0989888999
+&emsp; **Số điện thoại:** 0866552694
 
-&emsp; **Email:** Anguyenvan@gmail.com
+&emsp; **Email:** namdangcoder@gmail.com
 
-&emsp; **Trường:** Đại học Sư phạm Kỹ thuật TP.HCM
+&emsp; **Trường:** Đại học FPT Thành Phố Hồ Chí Minh
 
-&emsp; **Ngành:** Công nghệ thông tin
+&emsp; **Ngành:** Kỹ thuật phần mềm
 
 &emsp; **Lớp:** AWS082025
 
@@ -27,7 +27,7 @@ chapter: false
 
 &emsp; **Thời gian thực tập:** Từ ngày 12/08/2025 đến ngày 12/11/2025
 
-![Ảnh đại diện của bạn](/images/avatar2.png)
+![Ảnh đại diện của bạn](/public/images/avatar2.png)
 
 ### Nội dung báo cáo
 
