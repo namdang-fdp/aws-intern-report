@@ -3,6 +3,9 @@ theme = "hugo-theme-learn"
 baseURL = "https://namdang-fdp.github.io/aws-intern-report/"
 publishDir = "public"
 
+relativeURLs = false
+canonifyURLs = false
+
 # For search functionality
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
@@ -40,9 +43,6 @@ name = "<i class='fab fa-facebook'></i> AWS Study Group"
 identifier = "AWS Study Group FB"
 url = "https://www.facebook.com/groups/awsstudygroupfcj/"
 weight = 20
-relativeURLs = true
-canonifyURLs = true
-
 
 [markup]
   [markup.goldmark]
