@@ -6,26 +6,23 @@ chapter: false
 pre: " <b> 3. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
+Welcome to the curated collection of translated technical deep-dives. This section focuses on practical solutions revolving around three key pillars: **Cloud Security**, **Data Integrity**, and **Operational Excellence**.
 
-This section will list and introduce the blogs you have translated. For example:
+Explore the highlighted articles below:
 
-###  [Blog 1 - Getting started with healthcare data lakes: Using microservices](3.1-Blog1/)
-This blog introduces how to start building a data lake in the healthcare sector by applying a microservices architecture. You will learn why data lakes are important for storing and analyzing diverse healthcare data (electronic medical records, lab test data, medical IoT devices…), how microservices help make the system more flexible, scalable, and easier to maintain. The article also guides you through the steps to set up the environment, organize the data processing pipeline, and ensure compliance with security & privacy standards such as HIPAA.
+### [Blog 1 - How to use AWS Transfer Family and GuardDuty to protect against malware](3.1-Blog1/)
 
-###  [Blog 2 - ...](3.2-Blog2/)
-This blog introduces how to start building a data lake in the healthcare sector by applying a microservices architecture. You will learn why data lakes are important for storing and analyzing diverse healthcare data (electronic medical records, lab test data, medical IoT devices…), how microservices help make the system more flexible, scalable, and easier to maintain. The article also guides you through the steps to set up the environment, organize the data processing pipeline, and ensure compliance with security & privacy standards such as HIPAA.
+In an era where public file sharing is ubiquitous, this article introduces a comprehensive **Serverless** security architecture. The solution combines the power of **AWS Transfer Family** (SFTP) and **Amazon GuardDuty** to automate malware scanning workflows. You will discover how to build an intelligent pipeline that detects, quarantines malicious files, and instantly notifies users, all without the operational burden of managing server infrastructure or manually updating virus signatures.
 
-###  [Blog 3 - ...](3.3-Blog3/)
-This blog introduces how to start building a data lake in the healthcare sector by applying a microservices architecture. You will learn why data lakes are important for storing and analyzing diverse healthcare data (electronic medical records, lab test data, medical IoT devices…), how microservices help make the system more flexible, scalable, and easier to maintain. The article also guides you through the steps to set up the environment, organize the data processing pipeline, and ensure compliance with security & privacy standards such as HIPAA.
+### [Blog 2 - Preventing unintended encryption of Amazon S3 objects](3.2-Blog2/)
 
-###  [Blog 4 - ...](3.4-Blog4/)
-This blog introduces how to start building a data lake in the healthcare sector by applying a microservices architecture. You will learn why data lakes are important for storing and analyzing diverse healthcare data (electronic medical records, lab test data, medical IoT devices…), how microservices help make the system more flexible, scalable, and easier to maintain. The article also guides you through the steps to set up the environment, organize the data processing pipeline, and ensure compliance with security & privacy standards such as HIPAA.
+An insightful analysis of an attack vector where malicious actors leverage compromised credentials to re-encrypt S3 data using SSE-C keys, creating a ransomware-like scenario. Beyond alerting, the post provides a robust defense strategy featuring **4 core security practices**: Implementing short-term credentials, establishing Data Recovery procedures (Versioning, Replication), proactive Resource Monitoring, and enforcing restrictive Policies to neutralize threats at the source.
 
-###  [Blog 5 - ...](3.5-Blog5/)
-This blog introduces how to start building a data lake in the healthcare sector by applying a microservices architecture. You will learn why data lakes are important for storing and analyzing diverse healthcare data (electronic medical records, lab test data, medical IoT devices…), how microservices help make the system more flexible, scalable, and easier to maintain. The article also guides you through the steps to set up the environment, organize the data processing pipeline, and ensure compliance with security & privacy standards such as HIPAA.
+### [Blog 3 - Gaming Developer's Guide to Amazon DocumentDB — Part 3: Operational Best Practices](3.3-Blog3/)
 
-###  [Blog 6 - ...](3.6-Blog6/)
-This blog introduces how to start building a data lake in the healthcare sector by applying a microservices architecture. You will learn why data lakes are important for storing and analyzing diverse healthcare data (electronic medical records, lab test data, medical IoT devices…), how microservices help make the system more flexible, scalable, and easier to maintain. The article also guides you through the steps to set up the environment, organize the data processing pipeline, and ensure compliance with security & privacy standards such as HIPAA.
+An essential handbook for Data Engineers and Game Developers focusing on bringing **Amazon DocumentDB** to Production environments. This article delves into critical technical aspects:
+
+-   **Security:** Establishing robust encryption and Role-Based Access Control (RBAC).
+-   **Scaling:** Strategies for read/write load balancing and intelligent connection management.
+-   **Observability:** Leveraging CloudWatch and Performance Insights to monitor system health.
+-   **Cost Optimization:** Tips and tricks to manage resources efficiently, achieving peak performance at an optimal cost.

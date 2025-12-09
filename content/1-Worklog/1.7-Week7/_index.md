@@ -1,57 +1,49 @@
 ---
 title: "Week 7 Worklog"
-date: 2025-09-09
-weight: 1
+date: 2024-10-21
+weight: 7
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+### Week 7 Goals
 
-### Week 7 Objectives:
+-   **Strategic Consolidation:** Execute a comprehensive synthesis of core AWS competencies in preparation for the mid-term assessment.
+-   **Exam Simulation:** Engage in rigorous hands-on labs and scenario-based testing via **AWS Builders** and **AWSboy** platforms to align with examination standards.
+-   **Architectural Systematization:** Structured review of fundamental service interdependencies including EC2, S3, VPC, IAM, RDS, Lambda, and DynamoDB.
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+---
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Weekly Task Execution
 
+| Day       | Activity                                                                                                                                                                                                                                                                                                                                   | Start Date | Completion Date | Resources            |
+| :-------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- | :-------------- | :------------------- |
+| Monday    | - **Compute Architecture Synthesis:** Deep dive into EC2 lifecycles and Lambda event-driven models. <br> - **Practical Simulation:** Execute end-to-end lifecycle management of **EC2 Instances** (Launch to Termination). <br> - **Serverless Review:** Analyze Lambda execution environments and trigger logic.                          | 22/10/2024 | 22/10/2024      | AWS Builders, AWSboy |
+| Tuesday   | - **Storage Hierarchy Analysis:** Compare and contrast Block (EBS), Object (S3), and File (EFS) storage paradigms. <br> - **Hands-on Implementation:** Configure S3 tiering strategies (Standard, IA, Glacier) and EBS volume types. <br> - **Security Controls:** Enforce granular S3 bucket policies and ACLs.                           | 23/10/2024 | 23/10/2024      | AWS Builders, AWSboy |
+| Wednesday | - **Network Topology Engineering:** Dissect VPC internals (Subnetting, Route Tables, IGW, Security Layers). <br> - **Scenario Testing:** Distinguish between Security Group (Stateful) and NACL (Stateless) configurations. <br> - **Connectivity:** Review inter-network communication via VPC Peering and Transit Gateway.               | 24/10/2024 | 24/10/2024      | AWS Builders, AWSboy |
+| Thursday  | - **Persistence & Governance:** Solidify knowledge of Database consistency models (RDS vs. DynamoDB) and Identity Governance (IAM). <br> - **Identity Management:** Architect secure **IAM Policies**, **Roles**, and **User** hierarchies. <br> - **Database Config:** Practice DynamoDB capacity planning and RDS instance provisioning. | 25/10/2024 | 25/10/2024      | AWS Builders, AWSboy |
+| Friday    | - **Exam Readiness Assessment:** Undertake **comprehensive mock exams** on simulation platforms. <br> - **Gap Analysis:** Identify and remediate weak knowledge areas revealed during testing. <br> - **Knowledge Artifacts:** Compile condensed summary notes for rapid pre-exam reference.                                               | 26/10/2024 | 26/10/2024      | AWS Builders, AWSboy |
 
-### Week 7 Achievements:
+---
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+### Week 7 Outcomes
 
-* Successfully created and configured an AWS Free Tier account.
+**Holistic Competency Achieved:**
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+-   **Service Mastery:** Achieved a holistic understanding of the AWS Cloud Adoption Framework pillars: Compute, Storage, Networking, Database, and Security.
+-   **Scenario Proficiency:** Successfully navigated complex lab scenarios and multiple-choice constraints on **AWS Builders** and **AWSboy**.
+-   **Operational Fluency:**
+    -   **Compute:** Mastered EC2 parameterization (Instance Families, AMI selection, EBS optimization).
+    -   **Storage:** Internalized S3 object management and lifecycle economics.
+-   **Network Depth:** Attained clarity on **VPC** architectural components (Public/Private isolation, Routing logic, Defense-in-depth security).
+-   **Exam Readiness:** Reached a high level of confidence through iterative testing and review.
+-   **Knowledge Base:** Created a centralized repository of study notes covering all major service categories.
+-   **Remediation:** Proactively addressed and resolved knowledge gaps identified during practice sessions.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+**Core Insights:**
 
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+-   **Security Layering:** Security Groups act as stateful firewalls (automatic return traffic), whereas NACLs are stateless (requiring explicit bidirectional rules).
+-   **Workload Optimization:** EC2 instance families are purpose-built for specific bottlenecks (Compute, Memory, Storage, or GPU).
+-   **Storage Economics:** S3 storage classes are designed to balance retrieval costs against access frequency requirements.
+-   **IAM Logic:** Policy evaluation follows an "Implicit Deny" default, where the most restrictive policy (Explicit Deny) always wins.
+-   **Routing Precision:** VPC routing decisions rely on the "Longest Prefix Match" principle to determine traffic paths.

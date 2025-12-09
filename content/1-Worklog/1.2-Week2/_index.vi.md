@@ -1,59 +1,63 @@
 ---
-title: "Worklog Tuần 2"
-date: 2025-09-09
-weight: 1
+title: "Worklog tuần 2"
+date: 2025-09-15
+weight: 2
 chapter: false
-pre: " <b> 1.2. </b> "
+pre: "<b>1.2. </b>"
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Mục tiêu tuần 2
 
-### Mục tiêu tuần 2:
+-   **Năng lực cốt lõi:** Đạt được sự thành thạo về vận hành Amazon EC2 và các nguyên lý VPC (Module 2).
+-   **Cấp phát hạ tầng:** Kiến trúc và cấu hình các thành phần mạng thiết yếu để triển khai compute.
+-   **Khám phá DNS:** Bắt đầu nghiên cứu về Amazon Route 53 và các mô hình quản lý tên miền.
+-   **Kết nối ngành:** Thu thập thông tin chiến lược về AI và Dữ liệu thông qua sự kiện **Cloud Day**.
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Nhiệm vụ thực hiện trong tuần
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Ngày | Hoạt động                                                                                                                                                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Tài liệu tham khảo                                                                                                             |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 2    | - **Phân tích Kiến trúc Mạng:** Nghiên cứu sâu về tô-pô VPC và các thành phần mạng.<br>- **Nguyên lý Kiến trúc:** Tiếp thu các mẫu thiết kế (design patterns) thông qua bài giảng nâng cao của Mentor Gia Hưng.<br>- **Hoàn thành:** Học phần _Networking Essentials with Amazon VPC_.                                      | 15/09/2025   | 16/09/2025      | [AWS VPC Documentation](https://docs.aws.amazon.com/vpc/)                                                                      |
+| 3    | - **Triển khai Hạ tầng:** Cấp phát tài nguyên VPC bao gồm Subnets và Gateways.<br>- **Khởi chạy Compute:** Triển khai EC2 instance trong môi trường mạng đã cấu hình.<br>- **Phân lớp Bảo mật:** Phân tích và thực thi Security Groups và Network ACLs.<br>- **Hoàn thành:** Học phần _Compute Essentials with Amazon EC2_. | 16/09/2025   | 17/09/2025      | [AWS EC2 Documentation](https://docs.aws.amazon.com/ec2/) <br> [Introduction to Amazon EC2](https://000004.awsstudygroup.com/) |
+| 4    | - **Xử lý sự cố vận hành:** Giải quyết các điểm nghẽn xác thực tài khoản thông qua quy trình xác minh tài liệu.<br>- **Tối ưu hóa hỗ trợ:** Làm chủ quy trình yêu cầu hỗ trợ (support ticket).<br>- **Hoàn thành:** Các học phần _Creating Your First AWS Account_ và _Getting Help with AWS Support_.                      | 17/09/2025   | 20/09/2025      | [AWS Support](https://aws.amazon.com/support/) <br>[Request Support with AWS Support](https://000009.awsstudygroup.com/)       |
+| 5    | - **Kết nối Chiến lược:** Tham dự **Cloud Day** để giao lưu với cộng đồng công nghệ.<br>- **Phân tích Xu hướng:** Tiếp thu các bước tiến quan trọng trong Kỹ thuật AI và Dữ liệu.<br>- **Mentorship:** Kết nối với các nhân vật nổi bật trong hệ sinh thái AWS.                                                             | 18/09/2025   | 18/09/2025      | Cloud Day Event                                                                                                                |
 
+### Các khóa học AWS Skill Builder đã hoàn thành
 
-### Kết quả đạt được tuần 2:
+| Khóa học                                  | Danh mục        | Trạng thái |
+| ----------------------------------------- | --------------- | ---------- |
+| Creating Your First AWS Account           | Getting Started | ✅         |
+| Managing Costs with AWS Budgets           | Cost Management | ✅         |
+| Getting Help with AWS Support             | Support         | ✅         |
+| Access Management with AWS IAM            | Security        | ✅         |
+| Networking Essentials with Amazon VPC     | Networking      | ✅         |
+| Compute Essentials with Amazon EC2        | Compute         | ✅         |
+| Instance Profiling with IAM Roles for EC2 | Security        | ✅         |
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+### Kết quả đạt được trong tuần 2
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+**Năng lực kỹ thuật:**
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+_Kỹ thuật IaaS & Mạng:_
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+-   **Làm chủ VPC:** Đạt được sự hiểu biết toàn diện về kiến trúc Virtual Private Cloud.
+-   **Điều phối Tài nguyên:** Cấp phát thành công ngăn xếp mạng (network stack) hoàn chỉnh cho EC2:
+    -   **Phân đoạn mạng:** Cấu hình **Subnets** chi tiết để cô lập logic.
+    -   **Kết nối biên:** Thiết lập **Internet Gateway** cho truy cập bên ngoài.
+    -   **Quản trị lưu lượng:** Định nghĩa **Route Tables** để kiểm soát chặt chẽ luồng gói tin.
+    -   **Tường lửa Instance:** Triển khai **Security Groups** để lọc lưu lượng có trạng thái (stateful).
+-   **Tích hợp Danh tính:** Tận dụng **IAM Roles** và instance profiles để bảo mật thông tin đăng nhập EC2.
+-   **Rào chắn Tài chính:** Triển khai các chiến lược quản lý chi phí sử dụng AWS Budgets.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+**Thông tin Chiến lược (Cloud Day):**
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
+-   **Hội nhập Cộng đồng:** Kết nối thành công với các mentor AWS và chuyên gia trong ngành.
+-   **Thông tin Thị trường:** Có được cái nhìn quan trọng về quỹ đạo phát triển của công nghệ AI và Dữ liệu.
+-   **Sẵn sàng cho Tương lai:** Kiểm chứng nhu cầu thị trường ngày càng tăng đối với các giải pháp đám mây tích hợp AI.
 
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+**Đúc kết cốt lõi:**
 
-
+-   **VPC** là nền tảng bất di bất dịch của mạng AWS; thiết kế của nó quyết định tính bảo mật và khả năng kết nối.
+-   **Security Groups** hoạt động như tuyến phòng thủ đầu tiên (tường lửa ảo) ở cấp độ compute.
+-   **IAM Roles** là thiết yếu cho kiến trúc "Không thông tin đăng nhập" (Credential-less), loại bỏ việc hardcode bí mật trong mã nguồn.
+-   **Giám sát chủ động** thông qua AWS Budgets là bước đầu tiên trong Quản lý Tài chính Đám mây (FinOps).

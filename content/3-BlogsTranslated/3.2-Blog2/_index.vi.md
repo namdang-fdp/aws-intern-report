@@ -1,127 +1,121 @@
 ---
-title: "Blog 2"
-date: 2025-09-09
-weight: 1
+title: "Ngăn chặn việc mã hóa ngoài ý muốn đối với các đối tượng trong Amazon S3"
+date: 2025-01-15
+weight: 3
 chapter: false
 pre: " <b> 3.2. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
+Ngày đăng: 15-01-2025 – Tác giả: Steve de Vera, Jennifer Paz trong [Amazon S3](https://aws.amazon.com/blogs/storage/category/storage/amazon-s3/), [Security, Identity, & Compliance](https://aws.amazon.com/blogs/security/), [Best Practices](https://aws.amazon.com/blogs/architecture/category/best-practices/).
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
+-   **Cập nhật ngày 18 tháng 3 năm 2025:** Bài viết này đã được cập nhật để bổ sung thêm hướng dẫn về việc giám sát và phát hiện.
+-   **Cập nhật ngày 17 tháng 1 năm 2025:** Chúng tôi đã cập nhật bài viết này để nhấn mạnh tầm quan trọng của việc sử dụng thông tin xác thực ngắn hạn nhằm giảm thiểu rủi ro từ các kỹ thuật truy cập trái phép tương tự như kỹ thuật được mô tả trong bài viết này.
 
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
+Tại Amazon Web Services (AWS), bảo mật cho dữ liệu của khách hàng luôn là ưu tiên hàng đầu — và sẽ luôn như vậy. Gần đây, Nhóm Ứng phó sự cố khách hàng của AWS (AWS Customer Incident Response Team – CIRT) cùng với các hệ thống giám sát bảo mật tự động của chúng tôi đã phát hiện sự gia tăng bất thường trong hoạt động mã hóa liên quan đến các bucket của Amazon Simple Storage Service (Amazon S3).
 
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+Điều quan trọng cần lưu ý là các hành động này **không khai thác lỗ hổng trong bất kỳ dịch vụ nào của AWS** — mà yêu cầu thông tin xác thực hợp lệ bị người dùng trái phép sử dụng theo cách ngoài ý muốn. Mặc dù các hành động này diễn ra trong phạm vi trách nhiệm của khách hàng theo mô hình trách nhiệm chia sẻ (shared responsibility model), AWS vẫn khuyến nghị một số bước mà khách hàng có thể thực hiện để ngăn chặn hoặc giảm thiểu tác động của loại hoạt động này.
 
----
+Khi phối hợp cùng khách hàng, các nhóm bảo mật của chúng tôi đã phát hiện sự gia tăng các sự kiện mã hóa dữ liệu trong S3 bằng phương thức **mã hóa phía máy chủ với khóa do khách hàng cung cấp (SSE-C)**. Mặc dù đây là một tính năng được nhiều khách hàng sử dụng, chúng tôi đã phát hiện một mô hình trong đó một lượng lớn các thao tác `S3 CopyObject` sử dụng SSE-C bắt đầu ghi đè lên các đối tượng, dẫn đến việc mã hóa lại dữ liệu khách hàng bằng khóa mã hóa mới. Phân tích của chúng tôi cho thấy điều này được thực hiện bởi các tác nhân độc hại đã có được thông tin xác thực hợp lệ của khách hàng và dùng chúng để mã hóa lại các đối tượng.
 
-## Hướng dẫn kiến trúc
+Bằng cách sử dụng các công cụ phòng thủ chủ động (active defense tools), chúng tôi đã triển khai các biện pháp giảm thiểu tự động (automatic mitigations) giúp ngăn chặn loại hoạt động trái phép này trong nhiều trường hợp. Tuy nhiên, do các tác nhân đe dọa sử dụng thông tin xác thực hợp lệ, nên rất khó để AWS có thể phân biệt một cách chắc chắn giữa việc sử dụng hợp pháp và sử dụng độc hại. Vì vậy, chúng tôi khuyến nghị khách hàng tuân thủ các thực hành bảo mật tốt nhất để giảm thiểu rủi ro.
 
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
+Chúng tôi khuyến nghị khách hàng triển khai bốn thực hành bảo mật chính sau để bảo vệ khỏi việc sử dụng SSE-C trái phép:
 
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
-
-**Kiến trúc giải pháp bây giờ như sau:**
-
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
+1.  Triển khai thông tin xác thực ngắn hạn.
+2.  Triển khai quy trình khôi phục dữ liệu.
+3.  Giám sát tài nguyên AWS để phát hiện các mẫu truy cập bất thường.
+4.  Chặn việc sử dụng SSE-C, trừ khi ứng dụng của bạn thực sự yêu cầu.
 
 ---
 
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
+### 1. Triển khai thông tin xác thực ngắn hạn
 
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+Mặc dù kỹ thuật trên có sử dụng phương thức mã hóa SSE-C, nhưng nguyên nhân gốc rễ của vấn đề này — cũng như phần lớn các sự cố bảo mật — xuất phát từ việc bị lộ hoặc xâm phạm khóa truy cập dài hạn. Cách hiệu quả nhất để giảm thiểu rủi ro từ các thông tin xác thực bị xâm phạm là không tạo ra thông tin xác thực dài hạn ngay từ đầu.
 
----
+-   **IAM Roles**: Cho phép các ứng dụng gửi yêu cầu API có ký xác thực một cách an toàn từ Amazon EC2, Amazon ECS, Amazon EKS hoặc Lambda bằng cách sử dụng thông tin xác thực ngắn hạn.
+-   **IAM Roles Anywhere**: Cho phép các hệ thống bên ngoài môi trường AWS Cloud thực hiện các cuộc gọi đã xác thực mà không cần dùng thông tin xác thực dài hạn.
+-   **AWS IAM Identity Center**: Cho phép các máy trạm của nhà phát triển lấy thông tin xác thực ngắn hạn được bảo vệ bởi danh tính người dùng dài hạn — vốn được tăng cường bảo mật bằng xác thực đa yếu tố (MFA).
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
-
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+Những công nghệ này dựa trên **AWS Security Token Service (AWS STS)** để cấp phát thông tin xác thực bảo mật tạm thời.
 
 ---
 
-## The pub/sub hub
+### 2. Triển khai quy trình khôi phục dữ liệu
 
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
+Nếu không có các cơ chế bảo vệ dữ liệu được thiết lập, thời gian khôi phục dữ liệu có thể sẽ kéo dài hơn. Chúng tôi khuyến nghị bạn nên bảo vệ dữ liệu khỏi việc bị ghi đè và duy trì một bản sao thứ hai của các dữ liệu quan trọng.
 
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
-
----
-
-## Core microservice
-
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
-
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
+-   **S3 Versioning**: Bật tính năng này để lưu nhiều phiên bản của một đối tượng trong bucket, giúp khôi phục lại các đối tượng bị xóa hoặc ghi đè ngoài ý muốn. Sử dụng **S3 Lifecycle** để quản lý các phiên bản cũ và kiểm soát chi phí.
+-   **S3 Replication**: Sao chép dữ liệu quan trọng sang một bucket khác (có thể khác tài khoản hoặc khác vùng AWS). Dịch vụ này cung cấp SLA cho các yêu cầu nghiêm ngặt về RPO và RTO.
+-   **AWS Backup cho S3**: Dịch vụ được quản lý giúp tự động hóa việc sao lưu định kỳ cho các bucket S3.
 
 ---
 
-## Front door microservice
+### 3. Giám sát tài nguyên AWS để phát hiện các mẫu truy cập bất thường
 
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
+Nếu không có cơ chế giám sát, các hành động trái phép trên các bucket S3 có thể không được phát hiện.
 
----
-
-## Staging ER7 microservice
-
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
+-   **AWS CloudTrail**: Ghi lại các sự kiện trên nhiều dịch vụ AWS. Bạn có thể kiểm tra log CloudTrail để tìm giá trị `requestParameters.x-amz-server-side-encryption-customer-algorithm` trong các sự kiện dữ liệu S3 để xác định xem SSE-C có đang được sử dụng hay không.
+-   **Amazon CloudWatch**: Tạo các cảnh báo (alarms) dựa trên các chỉ số hoặc log cụ thể.
+-   **Amazon EventBridge & AWS Lambda**: Thiết lập tự động hóa để thực hiện các biện pháp khắc phục.
+-   **Amazon GuardDuty**: Cấu hình GuardDuty và bật **S3 Protection** với **Extended Threat Detection**. Cách này giúp GuardDuty phát hiện các hoạt động rò rỉ dữ liệu tiềm ẩn hoặc các nỗ lực tấn công ransomware thông qua mã hóa SSE-C.
 
 ---
 
-## Tính năng mới trong giải pháp
+### 4. Chặn việc sử dụng mã hóa SSE-C
 
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Nếu ứng dụng của bạn không sử dụng SSE-C làm phương thức mã hóa, bạn có thể chặn việc sử dụng SSE-C bằng cách áp dụng chính sách tài nguyên cho bucket S3 hoặc chính sách kiểm soát tài nguyên (RCP) trong AWS Organizations.
+
+**S3 Bucket Policy**
+
+Ví dụ dưới đây minh họa một bucket policy chặn yêu cầu SSE-C cho bucket có tên `<your-bucket-name>`:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Id": "S3-Console-Auto-Gen-Policy",
+    "Statement": [
+        {
+            "Sid": "DenySSE-C",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::<your-bucket-name>/*",
+            "Condition": {
+                "Null": {
+                    "s3:x-amz-server-side-encryption-customer-algorithm": "false"
+                }
+            }
+        }
+    ]
+}
+```
+
+AWS Organizations Resource Control Policy (RCP)
+
+RCP cho phép khách hàng xác định giới hạn quyền truy cập tối đa áp dụng cho các tài nguyên trên toàn bộ tổ chức. Ví dụ sau minh họa một RCP chặn các yêu cầu SSE-C đối với tất cả bucket trong tổ chức:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "DenySSE-C",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "*",
+            "Condition": {
+                "Null": {
+                    "s3:x-amz-server-side-encryption-customer-algorithm": "false"
+                }
+            }
+        }
+    ]
+}
+```
+
+Tổng kết
+
+Điều quan trọng và có giá trị nhất bạn có thể làm để bảo vệ môi trường AWS của mình khỏi các mối đe dọa phổ biến là loại bỏ hoặc giảm thiểu việc sử dụng thông tin xác thực dài hạn. Trong khi đội ngũ bảo mật của bạn không ngừng bảo vệ hệ thống, các nhóm của AWS — bao gồm AWS CIRT, Amazon Threat Intelligence và Amazon S3 team — đang liên tục đổi mới để bảo vệ dữ liệu quý giá của bạn.
+
+Nếu bạn nghi ngờ có hoạt động trái phép, hãy liên hệ ngay lập tức với AWS Support để được hỗ trợ.

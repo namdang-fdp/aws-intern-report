@@ -1,59 +1,59 @@
 ---
-title: "Worklog Tuần 9"
-date: 2025-09-09
-weight: 1
+title: "Worklog tuần 9"
+date: 2024-11-04
+weight: 9
 chapter: false
 pre: " <b> 1.9. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Mục tiêu tuần 9
 
-### Mục tiêu tuần 9:
+-   **Chuyển đổi Framework:** Thực hiện chuyển đổi toàn diện quy trình phát triển sang **AWS SAM (Serverless Application Model)**.
+-   **Hiện đại hóa kiến trúc:** Tái cấu trúc logic CRUD để phù hợp với các mô hình serverless chuẩn của SAM.
+-   **Chuẩn hóa môi trường:** Khắc phục các sai lệch về môi trường runtime cục bộ để đạt được trạng thái triển khai thành công trên cloud.
+-   **Container hóa:** Tích hợp **Docker** để chuẩn hóa quy trình build và quản lý thư viện phụ thuộc.
+-   **Thực thi Workshop:** Điều phối việc triển khai các vi dịch vụ (microservices) Frontend và Backend đã container hóa thông qua **Amazon ECS**.
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+---
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Nhiệm vụ thực hiện trong tuần
 
+| Ngày    | Hoạt động                                                                                                                                                                                                                                                                                                                                                                                                  | Ngày bắt đầu | Ngày hoàn thành | Tài liệu tham khảo                                                       |
+| :------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------- | :-------------- | :----------------------------------------------------------------------- |
+| Thứ Hai | - **Phân tích AWS SAM:** Mổ xẻ cấu trúc `template.yaml`, các lệnh SAM CLI và cơ chế hoạt động giữa Lambda và API Gateway. <br> - **Lộ trình chuyển đổi:** Xây dựng chiến lược chuyển đổi các Lambda function cũ sang cấu trúc SAM. <br> - **Giả lập cục bộ:** Đánh giá khả năng kiểm thử cục bộ thông qua `sam local invoke`.                                                                              | 04/11/2024   | 04/11/2024      | AWS SAM Documentation, AWS Study Group                                   |
+| Thứ Ba  | - **Hiện đại hóa mã nguồn:** Tái thiết kế các handler Create/Read để tận dụng nguồn sự kiện của SAM. <br> - **Chiến lược Container:** Cấu hình **Docker** để đảm bảo sự nhất quán của Python runtime trong quá trình `sam build`. <br> - **Quản lý Layer:** Xây dựng Dockerfile cho các dependency layer của Lambda. <br> - **Thực thi Workshop:** Cấp phát các ECR repository để quản lý image container. | 05/11/2024   | 06/11/2024      | Docker Documentation, SAM CLI, [Workshop 5.4](5-Workshop/5.4-ECS-Setup/) |
+| Thứ Tư  | - **Mô phỏng cục bộ:** Thực hiện unit test thông qua việc gọi hàm cục bộ. <br> - **Sai lệch môi trường:** Xác định các điểm nghẽn nghiêm trọng trong giả lập cục bộ (Xung đột thư viện, sai lệch phiên bản Python, lỗi kết nối DynamoDB local). <br> - **Xử lý sự cố:** Nỗ lực tái cấu hình để đồng bộ môi trường local và remote.                                                                         | 06/11/2024   | 07/11/2024      | SAM CLI Error Reports, Stack Overflow                                    |
+| Thứ Năm | - **Thay đổi chiến lược:** Quyết định áp dụng chiến lược **"Cloud-First Verification"** (Triển khai trước, kiểm thử sau) để vượt qua các hạn chế giả lập cục bộ. <br> - **Tối ưu hóa Template:** Tinh chỉnh định nghĩa trong `template.yaml`, chính sách IAM và biến môi trường. <br> - **Xác thực:** Kiểm tra cú pháp template và sự phụ thuộc tài nguyên.                                                | 07/11/2024   | 08/11/2024      | CloudFormation Template Validator                                        |
+| Thứ Sáu | - **Triển khai Production:** Thực thi thành công `sam deploy --guided` để cấp phát stack lên AWS. <br> - **Kiểm chứng Endpoint:** Xác minh tính toàn vẹn của API và hoạt động CRUD qua Postman/cURL. <br> - **Tài liệu hóa:** Chuẩn hóa quy trình triển khai để nhóm áp dụng. <br> - **Thực thi Workshop:** Điều phối triển khai ECS Fargate (Task Definitions, tạo Service và đẩy Image).                 | 08/11/2024   | 08/11/2024      | AWS CloudFormation Logs, [Workshop 5.4](5-Workshop/5.4-ECS-Setup/)       |
 
-### Kết quả đạt được tuần 9:
+---
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+### Kết quả đạt được trong tuần 9
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+**Chuyển đổi Kỹ thuật:**
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+-   **Chuyển đổi Framework thành công:** Hoàn tất việc chuyển đổi chiến lược sang **AWS SAM**, thiết lập Cơ sở hạ tầng dưới dạng mã (IaC) cho tài nguyên serverless.
+-   **Tái cấu trúc kiến trúc:** Hiện đại hóa thành công các CRUD handler thành cấu trúc module SAM.
+-   **Giải quyết phụ thuộc:** Tận dụng **Docker** để thực thi tính nhất quán khi build, loại bỏ các lỗi "chạy được trên máy tôi".
+-   **Đột phá trong triển khai:** Vượt qua các hạn chế debug cục bộ bằng cách chuyển sang quy trình kiểm chứng trên cloud, dẫn đến lần triển khai API trực tiếp thành công đầu tiên.
+-   **Cột mốc:** API của **Bandup IELTS** hiện đã hoạt động trên môi trường cloud thực tế.
+-   **Quản trị:** Thiết lập quy trình triển khai có thể lặp lại và một file `template.yaml` đóng vai trò là nguồn sự thật duy nhất (single source of truth).
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+**Tiến độ Workshop - Điều phối ECS & Container:**
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+-   **Quản lý tài sản (Artifact):** Thiết lập ECR repositories cho Frontend (Next.js) và Backend (Spring Boot).
+-   **Build Pipeline:** Thực thi build và push Docker image với chiến lược gắn thẻ (tagging) ngữ nghĩa.
+-   **Đặc tả tác vụ (Task Spec):** Định nghĩa chi tiết ECS Task Definitions (Frontend: 0.5 vCPU/1GB, Backend: 1 vCPU/2GB).
+-   **Điều phối cụm:** Cấp phát ECS Cluster tận dụng các capacity provider của Fargate.
+-   **Tính sẵn sàng cao (HA):** Triển khai ECS Services theo cấu hình Active-Passive Multi-AZ (2 active replicas, 1 standby).
+-   **Service Mesh:** Cấu hình **Service Connect** để khám phá dịch vụ nội bộ liền mạch.
+-   **Khả năng phục hồi:** Triển khai health checks tự động để tự phục hồi tác vụ.
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
+**Đúc kết cốt lõi:**
 
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+-   **Sức mạnh IaC:** SAM đơn giản hóa sự phức tạp của serverless bằng cách coi hạ tầng là mã.
+-   **Tính nhất quán của Container:** Docker là yếu tố bắt buộc để đảm bảo môi trường build nhất quán trên các máy phát triển khác nhau.
+-   **Thích ứng chiến lược:** Nhận biết khi nào nên từ bỏ giả lập cục bộ để chuyển sang kiểm thử trên cloud là một kỹ năng DevOps quan trọng.
+-   **Độ chính xác IAM:** SAM template thực thi các ranh giới quyền hạn nghiêm ngặt, rất quan trọng cho việc thực thi Lambda an toàn.
+-   **Trừu tượng hóa Fargate:** ECS Fargate loại bỏ gánh nặng vận hành quản lý các EC2 instance cho container.
+-   **Service Connect:** Đơn giản hóa giao tiếp microservice nội bộ, giảm nhu cầu sử dụng các bộ cân bằng tải nội bộ phức tạp.

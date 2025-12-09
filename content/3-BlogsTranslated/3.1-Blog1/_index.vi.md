@@ -1,126 +1,102 @@
 ---
-title: "Blog 1"
-date: 2025-09-09
-weight: 1
+title: "Cách sử dụng AWS Transfer Family và GuardDuty để bảo vệ khỏi phần mềm độc hại (malware)"
+date: 2025-04-30
+weight: 2
 chapter: false
 pre: " <b> 3.1. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
+Ngày đăng: 2025-04-30 – Tác giả: James Abbot, Suhas Pasricha, Santhosh Srinivasan trong [Security, Identity, & Compliance](https://aws.amazon.com/blogs/security/), [Advanced (300)](https://aws.amazon.com/blogs/learning-levels/advanced-300/), [Technical How-to](https://aws.amazon.com/blogs/post-types/technical-how-to/).
 
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
+Các tổ chức thường cần chia sẻ tệp tin một cách an toàn với các bên bên ngoài qua internet. Việc cho phép truy cập công khai vào một máy chủ truyền tệp khiến tổ chức đối mặt với các mối đe dọa tiềm ẩn, chẳng hạn như các tệp tin nhiễm phần mềm độc hại (malware) do các tác nhân xấu hoặc do người dùng hợp pháp vô tình tải lên. Để giảm thiểu rủi ro này, các công ty có thể thực hiện các bước để đảm bảo rằng các tệp tin nhận được qua các kênh công cộng được quét tìm phần mềm độc hại trước khi xử lý.
 
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+Bài viết này trình bày cách sử dụng AWS Transfer Family và Amazon GuardDuty để quét các tệp được tải lên qua máy chủ SFTP (secure FTP) nhằm tìm phần mềm độc hại, như một phần của một quy trình truyền tệp tổng thể. Đối với những độc giả có thể đã đọc một bài blog trước đó về chủ đề này, điểm khác biệt chính là giải pháp này được quản lý hoàn toàn và không yêu cầu triển khai tài nguyên tính toán. GuardDuty tự động cập nhật các chữ ký phần mềm độc hại mỗi 15 phút thay vì sử dụng một ảnh container (container image) để quét, tránh được việc phải vá lỗi thủ công để giữ cho các chữ ký được cập nhật.
 
 ---
 
-## Hướng dẫn kiến trúc
+**Điều kiện tiên quyết**
 
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
+Để triển khai giải pháp trong bài viết này, bạn sẽ cần:
 
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
-
-**Kiến trúc giải pháp bây giờ như sau:**
-
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
-
----
-
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
-
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+-   **Một tài khoản AWS**: Bạn cần quyền truy cập vào AWS để triển khai giải pháp này. Nếu bạn chưa có tài khoản, hãy xem Bắt đầu xây dựng trên AWS ngay hôm nay.
+-   **AWS CLI**: Cài đặt và cấu hình Giao diện Dòng lệnh AWS (AWS CLI) để xác thực với tài khoản AWS của bạn. Thiết lập các biến môi trường cho tài khoản AWS của bạn bằng cách sử dụng access token và secret access key cho môi trường của bạn.
+-   **Git**: Bạn sẽ sử dụng Git để tải mã nguồn ví dụ từ GitHub.
+-   **Terraform**: Bạn sẽ sử dụng Terraform để chạy tự động hóa. Làm theo hướng dẫn cài đặt Terraform để tải xuống và thiết lập Terraform.
 
 ---
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
+**Tổng quan về giải pháp**
 
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+Giải pháp này sử dụng Transfer Family và GuardDuty. Transfer Family cung cấp một dịch vụ truyền tệp an toàn mà bạn có thể sử dụng để thiết lập một máy chủ SFTP, và GuardDuty là một dịch vụ phát hiện mối đe dọa thông minh. GuardDuty giám sát các hoạt động độc hại và hành vi bất thường để bảo vệ các tài khoản, khối lượng công việc và dữ liệu của AWS. Ở cấp độ cao, giải pháp sử dụng các bước sau:
 
----
-
-## The pub/sub hub
-
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
-
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
+1. Một người dùng tải lên một tệp tin thông qua máy chủ SFTP của Transfer Family.
+2. Một quy trình công việc (workflow) do Transfer Family quản lý sẽ gọi AWS Lambda để thực thi một quy trình công việc của AWS Step Functions. Quy trình này chỉ bắt đầu sau khi tệp được tải lên thành công.
+3. Việc tải lên một phần (partial uploads) tới máy chủ SFTP sẽ gọi một hàm Lambda xử lý lỗi để báo cáo lỗi tải lên không hoàn tất.
+4. Một máy trạng thái (state machine) của AWS Step Functions gọi một hàm Lambda để di chuyển các tệp đã tải lên đến một bucket Amazon Simple Storage Service (Amazon S3) để xử lý và sau đó bắt đầu quét bằng GuardDuty.
+5. Kết quả quét của GuardDuty được gửi dưới dạng một lệnh gọi lại (callback) đến AWS Step Functions.
+6. Các tệp bị nhiễm độc sẽ được di chuyển hoặc làm sạch.
+7. Quy trình công việc gửi kết quả cho người dùng thông qua một chủ đề (topic) của Amazon Simple Notification Service (Amazon SNS). Đây có thể là thông báo về lỗi, về việc phát hiện tệp độc hại trong quá trình quét, hoặc thông báo về việc tải lên thành công và tệp đã được quét sạch để xử lý tiếp.
 
 ---
 
-## Core microservice
+**Kiến trúc giải pháp và hướng dẫn chi tiết**
 
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
+Giải pháp này sử dụng tính năng Bảo vệ khỏi Phần mềm độc hại cho S3 (Malware Protection for S3) của GuardDuty để quét các đối tượng mới được tải lên bucket S3. Bạn có thể sử dụng tính năng này của GuardDuty để thiết lập một kế hoạch bảo vệ khỏi phần mềm độc hại cho một bucket S3 ở cấp độ bucket hoặc để theo dõi các tiền tố đối tượng (object prefixes) cụ thể.
 
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
+![Kiến trúc của giải pháp](/images/3-BlogsTranslated/Blog2/img1.jpg)
 
----
+Các bước sau (xem qua minh họa 1) mô tả quy trình công việc của giải pháp này, bắt đầu từ thời điểm tệp được tải lên cho đến khi nó được quét và đánh dấu là an toàn hoặc bị nhiễm độc, dẫn đến các bước tiếp theo có thể được tùy chỉnh dựa trên trường hợp sử dụng của bạn.
 
-## Front door microservice
-
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
-
----
-
-## Staging ER7 microservice
-
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
+1. Một tệp được tải lên bằng giao thức SFTP thông qua Transfer Family.
+2. Nếu tệp được tải lên thành công, Transfer Family sẽ tải tệp lên bucket S3 có tên là Unscanned và quy trình Managed Workflow Complete được kích hoạt. Đây là quy trình được sử dụng để xử lý các lần tải lên thành công và gọi hàm Lambda Step Function Invoker.
+3. Step Function Invoker khởi động máy trạng thái và bắt đầu bước đầu tiên trong quy trình bằng cách gọi hàm Lambda GuardDuty – Scan.
+4. Hàm GuardDuty – Scan di chuyển tệp đến bucket Processing. Đây là bucket mà từ đó các tệp sẽ được quét.
+5. Khi một hoạt động tải lên đối tượng được phát hiện, GuardDuty sẽ tự động quét đối tượng đó. Trong triển khai này, một kế hoạch bảo vệ khỏi phần mềm độc hại được tạo cho bucket Processing.
+6. Khi quá trình quét hoàn tất, GuardDuty sẽ công bố kết quả quét lên Amazon EventBridge.
+7. Một quy tắc (rule) của EventBridge đã được tạo để gọi một hàm Lambda Callback bất cứ khi nào một sự kiện quét hoàn tất. EventBridge sẽ gọi hàm với một sự kiện chứa kết quả quét.
+8. Hàm Lambda Callback thông báo cho tác vụ GuardDuty – Scan bằng cách sử dụng mô hình tích hợp tác vụ gọi lại (callback task integration pattern). kết quả của quá trình quét Amazon GuardDuty được trả về cho hàm GuardDuty – Scan và các kết quả này được chuyển đến tác vụ Move File.
+9. Nếu kết quả là một lần quét sạch không có mối đe dọa nào được phát hiện, tác vụ Move File sẽ đặt tệp vào bucket S3 Clean, cho biết rằng tệp đã được quét thành công và an toàn để xử lý tiếp. Tại thời điểm này, hàm Move File sẽ công bố một thông báo đến chủ đề SNS Success để thông báo cho những người đăng ký.
+10. Nếu kết quả cho thấy tệp là độc hại, hàm Move File sẽ thay vào đó di chuyển tệp đến bucket S3 Quarantine để điều tra thêm. Hàm cũng sẽ xóa tệp khỏi bucket Processing và công bố một thông báo trong chủ đề Error trên SNS để thông báo cho người dùng về một tệp có khả năng độc hại đã được tải lên.
+11. Nếu việc tải lên tệp không thành công và tệp không được tải lên đầy đủ, thì Transfer Family sẽ kích hoạt quy trình Managed Workflow Partial. Managed Workflow Partial là một quy trình xử lý lỗi và gọi hàm Error Publisher, được sử dụng để báo cáo các lỗi xảy ra ở bất kỳ đâu trong quy trình. Hàm Error Publisher xác định loại lỗi—cho dù là do tải lên một phần hay một vấn đề ở nơi khác trong quy trình—và đặt trạng thái lỗi tương ứng. Sau đó, nó sẽ công bố một thông báo lỗi đến Error Topic trên SNS.
+12. Tác vụ GuardDuty – Scan có một khoảng thời gian chờ (timeout) để đảm bảo rằng một sự kiện được công bố đến Error Topic để yêu cầu can thiệp thủ công để điều tra thêm nếu tệp không được quét thành công. Nếu tác vụ GuardDuty – Scan thất bại, hàm Lambda Error clean up sẽ được gọi.
+13. Cuối cùng, có một chính sách vòng đời S3 (S3 Lifecycle policy) được đính kèm vào bucket Processing. Điều này để đảm bảo rằng không có tệp nào bị bỏ lại trong bucket Processing quá một ngày.
 
 ---
 
-## Tính năng mới trong giải pháp
+**Kho mã nguồn**
 
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Kho lưu trữ AWS-samples trên GitHub có một triển khai mẫu được phát triển bằng Terraform và các hàm Lambda dựa trên Python để thực hiện giải pháp này. Giải pháp tương tự cũng có thể được triển khai bằng AWS CloudFormation. Mã nguồn có các thành phần cần thiết để triển khai toàn bộ quy trình nhằm minh họa khả năng của Transfer Family và kế hoạch bảo vệ khỏi phần mềm độc hại của GuardDuty.
+
+---
+
+**Cài đặt giải pháp**
+
+Sử dụng các bước sau để triển khai giải pháp này vào môi trường thử nghiệm của bạn.
+
+1. Sao chép (clone) kho lưu trữ về thư mục làm việc của bạn bằng Git.
+2. Điều hướng đến thư mục gốc của dự án bạn vừa sao chép.
+3. Cập nhật tệp `locals.tf` của Terraform với các giá trị bạn chọn cho tên bucket S3, tên máy chủ SFTP và các biến khác.
+4. Chạy lệnh `terraform plan`. Nếu mọi thứ trông ổn, hãy chạy `terraform apply` và nhập `yes` để tạo các tài nguyên.
+
+---
+
+**Dọn dẹp**
+
+Sau khi thử nghiệm và khám phá giải pháp, điều quan trọng là phải dọn dẹp các tài nguyên bạn đã tạo để tránh phát sinh chi phí không cần thiết. Để xóa các tài nguyên được tạo bởi giải pháp này, hãy điều hướng đến thư mục gốc của dự án bạn đã sao chép và chạy lệnh sau:
+
+`terraform destroy`
+
+Lệnh này sẽ xóa các tài nguyên được tạo bởi Terraform, bao gồm máy chủ SFTP, các bucket S3, các hàm Lambda và các thành phần khác. Xác nhận việc xóa bằng cách nhập yes khi được yêu cầu.
+
+---
+
+**Kết luận**
+
+Bằng cách sử dụng phương pháp được nêu trong bài viết, bạn có thể đảm bảo rằng các tệp nhận được qua SFTP và được tải lên bucket S3 của bạn được quét tìm các mối đe dọa và an toàn cho việc xử lý tiếp theo. Giải pháp này làm giảm bề mặt tiếp xúc rủi ro bằng cách đảm bảo rằng các tệp được tải lên công khai được quét trong một môi trường an toàn trước khi chúng được gửi đến các thành phần khác của hệ thống của bạn. Nếu bạn có phản hồi về bài viết này, hãy gửi bình luận trong phần Bình luận bên dưới.
+
+---
+
+| ![James Abbott](/images/3-BlogsTranslated/Blog2/author1.jpg)        | **James Abbott** James là Principal Solutions Architect tại AWS. Làm việc trong mảng Dịch vụ Tài chính Toàn cầu. Ngoài giờ làm việc, anh thích đạp xe leo núi ở North Carolina.                                                                                                                                                                                            |
+| :------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Suhas Pasricha](/images/3-BlogsTranslated/Blog2/author2.jpg)      | **Suhas Pasricha** Suhas là Sr. Cloud Application Architect thuộc đội ngũ Dịch vụ Chuyên nghiệp tại AWS. Chuyên môn chính trong việc xây dựng và hiện đại hóa các ứng dụng doanh nghiệp quy mô lớn trên cloud, đặc biệt tập trung vào lĩnh vực dịch vụ tài chính.                                                                                                          |
+| ![Santhosh Srinivasan](/images/3-BlogsTranslated/Blog2/author3.jpg) | **Santhosh Srinivasan** Santhosh là Cloud Infrastructure Architect tại AWS thuộc đội ngũ Dịch vụ Chuyên nghiệp của AWS. Anh có kinh nghiệm về phát triển web và tự động hóa hạ tầng. Tại Amazon, anh đã giúp khách hàng thiết lập và vận hành môi trường đám mây và landing zone trên quy mô toàn doanh nghiệp. Khi rảnh rỗi, anh thích đọc sách và chơi trò chơi điện tử. |

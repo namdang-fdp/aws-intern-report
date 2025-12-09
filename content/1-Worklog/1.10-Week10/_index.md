@@ -1,57 +1,62 @@
 ---
-title: "Week 10 Worklog"
-date: 2025-09-09
-weight: 2
+title: "Worklog Week 10"
+date: 2024-11-11
+weight: 10
 chapter: false
 pre: " <b> 1.10. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+### Week 10 Goals
 
-### Week 10 Objectives:
+-   **Environment Stabilization:** Solidify the AWS SAM/Serverless deployment pipeline and remediate critical instability factors.
+-   **Diagnostic Resolution:** Systematically debug interoperability bottlenecks, specifically CORS misconfigurations and template validation failures.
+-   **Full-Stack Integration:** Fuse the Frontend and Backend layers to facilitate End-to-End (E2E) testing via the user interface.
+-   **CRUD Validation:** Finalize and validate **Read** and **Delete** logic with robust error handling.
+-   **Expert Consultation:** Leverage insights from the **AWS Cloud Mastery Series** to address architectural roadblocks.
+-   **Workshop Execution:** Architect the Ingress layer using **Application Load Balancer (ALB)** for intelligent traffic distribution.
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+---
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Weekly Task Execution
 
+| Day | Activity                                                                                                                                                                                                                                                                                                                                                    | Start Date | Completion Date | Resources                                                                       |
+| :-- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- | :-------------- | :------------------------------------------------------------------------------ |
+| Mon | - **CORS Rectification:** Harmonize **API Gateway** preflight (OPTIONS) configurations with Lambda response headers to authorize Frontend consumption. <br> - **Template Sanitation:** Refactor `template.yaml` to resolve circular dependencies and prevent validation failures during `sam deploy`.                                                       | 11/11/2024 | 11/11/2024      | API Gateway/CORS Documentation                                                  |
+| Tue | - **Query Logic Optimization:** Fortify the **Read** function to ensure accurate DynamoDB querying and standardized JSON payload formatting. <br> - **Resiliency:** Implement exception handling for null datasets and invalid query parameters. <br> - **Observability:** Inject structured logging for runtime debugging.                                 | 12/11/2024 | 12/11/2024      | DynamoDB Query Documentation                                                    |
+| Wed | - **Client Integration:** Merge the Frontend codebase with the deployed API to validate data rendering. <br> - **UI Verification:** Successfully rendered flashcard collections on React/Vue components. <br> - **Workshop Activity:** Provision Application Load Balancer (ALB) in public subnets and map Target Groups.                                   | 13/11/2024 | 13/11/2024      | Frontend Framework Documentation, [Workshop 5.5](5-Workshop/5.5-Load-Balancer/) |
+| Thu | - **Delete Logic Deployment:** Roll out the implementation for resource removal. <br> - **AuthZ Bottleneck:** Identified a critical failure in extracting **Cognito User Sub ID** from JWT tokens within Lambda, blocking privileged operations. <br> - **Investigation:** Initiated deep-dive troubleshooting of the authentication flow.                  | 14/11/2024 | 14/11/2024      | AWS Cognito Documentation                                                       |
+| Fri | - **Strategic Mentorship:** Attended **AWS Cloud Mastery Series** to gain expert perspective on Serverless patterns and AuthZ best practices. <br> - **Remediation Strategy:** Applied mentor guidance to refactor the Cognito token parsing logic for Update/Delete operations. <br> - **Knowledge Base:** Documented resolution steps for team reference. | 15/11/2024 | 15/11/2024      | Mentor, AWS Cloud Mastery Series                                                |
 
-### Week 10 Achievements:
+---
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+### Week 10 Outcomes
 
-* Successfully created and configured an AWS Free Tier account.
+**Technical Stabilization & Integration:**
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+-   **Configuration Resolution:** Successfully mitigated persistent CORS errors and stabilized the SAM deployment loop, ensuring a reliable CI/CD flow.
+-   **Expert Alignment:** Gained critical architectural direction from the **AWS Cloud Mastery Series**, directly addressing project blockers.
+-   **E2E Connectivity:** Achieved the first successful **Frontend-Backend Integration**, enabling functional UI testing.
+-   **Operational CRUD:** Deployed functional **Read** and **Delete** operations, now accessible via the web interface.
+-   **Bottleneck Identification:** Pinpointed specific authorization failures:
+    -   **Context Extraction:** Lambda's inability to correctly parse **Cognito Sub ID** from the authorization header.
+    -   **Dependency Blocking:** Update/Delete functions stalled due to strict identity verification requirements.
+-   **Testing Phase:** Transitioned the project into the User Acceptance Testing (UAT) phase for basic operations.
+-   **Workflow Standards:** Established debugging protocols and error handling standards for the development team.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+**Workshop Progress - Load Balancer Configuration:**
 
-* Used AWS CLI to perform basic operations such as:
+-   **Ingress Architecture:** Provisioned an Application Load Balancer (ALB) spanning two Availability Zones (Public Subnets).
+-   **Traffic Routing:** Configured Target Groups for ECS services (Frontend: 3000, Backend: 8080).
+-   **Health Monitoring:** Implemented automated health checks to evict unhealthy targets.
+-   **Security Offloading:** Configured **SSL/TLS termination** using ACM certificates to offload encryption overhead.
+-   **DNS Integration:** Mapped ALB endpoints to Route 53 for domain resolution.
+-   **Path-Based Routing:** Defined listener rules to segregate traffic (Frontend: `/`, Backend: `/api/*`).
+-   **Network Security:** Applied security group rules permitting strict ALB-to-ECS traffic flow.
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+**Core Insights:**
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+-   **CORS Complexity:** CORS compliance requires a synchronized configuration across both the Gateway (Preflight) and Application (Headers) layers.
+-   **Identity Context:** Raw JWT tokens must be meticulously decoded to extract the **User Sub ID** for granular authorization.
+-   **Contract Adherence:** Successful integration hinges on strict adherence to API contracts and data serialization formats between Client and Server.
+-   **Observability:** Comprehensive logging is the only defense against obscure production runtime errors.
+-   **ALB Efficiency:** Application Load Balancers provide critical intelligence (Path routing) and performance benefits (SSL Offloading) for containerized workloads.
