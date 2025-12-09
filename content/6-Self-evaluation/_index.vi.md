@@ -1,40 +1,110 @@
 ---
-title: "Tự đánh giá"
+title: "Tự Đánh Giá"
 date: 2025-09-09
 weight: 6
 chapter: false
 pre: " <b> 6. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
+### Tổng quan kỳ thực tập
 
-Trong suốt thời gian thực tập tại **[Tên công ty/tổ chức]** từ **[ngày bắt đầu]** đến **[ngày kết thúc]**, tôi đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
-Tôi đã tham gia **[mô tả ngắn gọn dự án hoặc công việc chính]**, qua đó cải thiện kỹ năng **[liệt kê kỹ năng: lập trình, phân tích, viết báo cáo, giao tiếp…]**.  
+Trong thời gian thực tập tại **Amazon Web Services (AWS)**, tôi đã có cơ hội quý báu để học hỏi, thực hành và áp dụng những kiến thức đã học vào môi trường điện toán đám mây thực tế.
 
-Về tác phong, tôi luôn cố gắng hoàn thành tốt nhiệm vụ, tuân thủ nội quy, và tích cực trao đổi với đồng nghiệp để nâng cao hiệu quả công việc.
+Tôi đã tham gia xây dựng **BandUp IELTS Learning Platform** - một ứng dụng toàn diện hỗ trợ học viên luyện thi IELTS thông qua việc chấm điểm Writing và Speaking tự động bằng AI, sử dụng kiến trúc Full-stack hiện đại trên nền tảng AWS.
 
-Để phản ánh một cách khách quan quá trình thực tập, tôi xin tự đánh giá bản thân dựa trên các tiêu chí dưới đây:
+---
 
+### Các thành tựu chính
 
-| STT | Tiêu chí                            | Mô tả                                                                                            | Tốt | Khá | Trung bình |
-| --- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | --- | --- | ---------- |
-| 1   | **Kiến thức và kỹ năng chuyên môn** | Hiểu biết về ngành, áp dụng kiến thức vào thực tế, kỹ năng sử dụng công cụ, chất lượng công việc | ✅   | ☐   | ☐          |
-| 2   | **Khả năng học hỏi**                | Tiếp thu kiến thức mới, học hỏi nhanh                                                            | ☐   | ✅   | ☐          |
-| 3   | **Chủ động**                        | Tự tìm hiểu, nhận nhiệm vụ mà không chờ chỉ dẫn                                                  | ✅   | ☐   | ☐          |
-| 4   | **Tinh thần trách nhiệm**           | Hoàn thành công việc đúng hạn, đảm bảo chất lượng                                                | ✅   | ☐   | ☐          |
-| 5   | **Kỷ luật**                         | Tuân thủ giờ giấc, nội quy, quy trình làm việc                                                   | ☐   | ☐   | ✅          |
-| 6   | **Tính cầu tiến**                   | Sẵn sàng nhận feedback và cải thiện bản thân                                                     | ☐   | ✅   | ☐          |
-| 7   | **Giao tiếp**                       | Trình bày ý tưởng, báo cáo công việc rõ ràng                                                     | ☐   | ✅   | ☐          |
-| 8   | **Hợp tác nhóm**                    | Làm việc hiệu quả với đồng nghiệp, tham gia nhóm                                                 | ✅   | ☐   | ☐          |
-| 9   | **Ứng xử chuyên nghiệp**            | Tôn trọng đồng nghiệp, đối tác, môi trường làm việc                                              | ✅   | ☐   | ☐          |
-| 10  | **Tư duy giải quyết vấn đề**        | Nhận diện vấn đề, đề xuất giải pháp, sáng tạo                                                    | ☐   | ✅   | ☐          |
-| 11  | **Đóng góp vào dự án/tổ chức**      | Hiệu quả công việc, sáng kiến cải tiến, ghi nhận từ team                                         | ✅   | ☐   | ☐          |
-| 12  | **Tổng thể**                        | Đánh giá chung về toàn bộ quá trình thực tập                                                     | ✅   | ☐   | ☐          |
+Thông qua dự án này, tôi đã phát triển và hoàn thiện các kỹ năng:
 
-### Cần cải thiện
+**Kiến trúc Cloud & Dịch vụ AWS:**
 
-* Nâng cao tính kỹ luật, chấp hành nghiêm chỉnh nội quy của công ty hoặc bất kỳ trong một tổ chức nào
-* Cải thiện trong cách tư duy giải quyết vấn đề
-* Học cách giao tiếp tốt hơn trong giao tiếp hằng ngày và trong công việc, xử lý tình huống
+-   Thiết kế và triển khai kiến trúc container sử dụng **Amazon ECS (Fargate)** cho cả Frontend và Backend.
+-   Cấu hình mạng VPC bảo mật với các subnet Public/Private, NAT Gateway và Application Load Balancer.
+-   Quản lý cơ sở dữ liệu độ sẵn sàng cao với **Amazon RDS (PostgreSQL)** và **Amazon ElastiCache (Redis)**.
+-   Tối ưu hóa phân phối nội dung bảo mật thông qua **Amazon CloudFront** và **S3**.
+
+**Phát triển phần mềm (Dev & DevOps):**
+
+-   Phát triển các RESTful API mạnh mẽ sử dụng **Java Spring Boot** và tích hợp Spring Security (OAuth2/JWT).
+-   Xây dựng giao diện Frontend tương tác cao sử dụng **Next.js (React)** và **Bun**.
+-   Thiết lập quy trình CI/CD để tự động hóa việc build và deploy lên AWS.
+-   Thực hành đóng gói ứng dụng (Containerization) với Docker.
+
+**Tích hợp AI/ML:**
+
+-   Tích hợp **Google Gemini API** để cung cấp phản hồi AI cho bài thi Writing và Speaking.
+-   Sử dụng **Amazon Bedrock** cho các tác vụ xử lý ngôn ngữ nâng cao.
+-   Tối ưu hóa prompt engineering để đảm bảo độ chính xác trong việc chấm điểm IELTS.
+
+---
+
+### Tác phong làm việc
+
+Trong suốt kỳ thực tập, tôi luôn nỗ lực:
+
+-   Hoàn thành các nhiệm vụ được giao với chất lượng cao và tỉ mỉ.
+-   Tuân thủ các quy định và thực hành tốt nhất (Best Practices) của AWS về bảo mật và tối ưu chi phí.
+-   Chủ động giao tiếp với mentor và thành viên trong nhóm để nâng cao hiệu quả công việc.
+-   Tài liệu hóa công việc đầy đủ để phục vụ việc chuyển giao tri thức.
+
+---
+
+### Tiêu chí tự đánh giá
+
+Để nhìn nhận khách quan về kỳ thực tập, tôi tự đánh giá bản thân dựa trên các tiêu chí sau:
+
+| STT | Tiêu chí                           | Mô tả                                                                         | Tốt | Khá | TB  |
+| --- | ---------------------------------- | ----------------------------------------------------------------------------- | --- | --- | --- |
+| 1   | **Kiến thức & Kỹ năng chuyên môn** | Hiểu biết về Java, Next.js, React và kiến trúc AWS Cloud                      | ✅  | ☐   | ☐   |
+| 2   | **Khả năng học hỏi**               | Nhanh chóng tiếp thu công nghệ mới (ECS, Spring Boot, AI integration)         | ✅  | ☐   | ☐   |
+| 3   | **Tính chủ động**                  | Chủ động tìm kiếm giải pháp, nghiên cứu tài liệu khi gặp lỗi deployment       | ✅  | ☐   | ☐   |
+| 4   | **Tinh thần trách nhiệm**          | Hoàn thành các tính năng API và giao diện đúng hạn, đảm bảo chất lượng        | ✅  | ☐   | ☐   |
+| 5   | **Tính kỷ luật**                   | Tuân thủ giờ giấc, quy chuẩn code và quy trình làm việc                       | ☐   | ✅  | ☐   |
+| 6   | **Tư duy cầu tiến**                | Sẵn sàng đón nhận feedback qua Code Review và các quyết định kiến trúc        | ✅  | ☐   | ☐   |
+| 7   | **Giao tiếp**                      | Trình bày giải pháp kỹ thuật, viết tài liệu và báo cáo tiến độ rõ ràng        | ☐   | ✅  | ☐   |
+| 8   | **Làm việc nhóm**                  | Phối hợp hiệu quả với mentor để tích hợp Frontend-Backend trơn tru            | ✅  | ☐   | ☐   |
+| 9   | **Đạo đức nghề nghiệp**            | Tôn trọng đồng nghiệp, tuân thủ bảo mật AWS, giữ thái độ chuyên nghiệp        | ✅  | ☐   | ☐   |
+| 10  | **Kỹ năng giải quyết vấn đề**      | Debug các lỗi phức tạp trên môi trường container và tối ưu hiệu năng hệ thống | ✅  | ☐   | ☐   |
+| 11  | **Đóng góp cho dự án**             | Hoàn thành module chấm điểm IELTS và bộ tài liệu kỹ thuật của hệ thống        | ✅  | ☐   | ☐   |
+| 12  | **Tổng quan**                      | Đánh giá chung về toàn bộ kỳ thực tập                                         | ✅  | ☐   | ☐   |
+
+---
+
+### Bài học kinh nghiệm
+
+**Kỹ năng kỹ thuật:**
+
+-   Hiểu sâu về vận hành container trên **AWS ECS**.
+-   Thành thạo phát triển Full-stack với **Java Spring Boot** và **Next.js**.
+-   Kinh nghiệm quản lý caching với Redis và cơ sở dữ liệu PostgreSQL.
+-   Kiến thức thực tế về tích hợp AI vào ứng dụng web production.
+
+**Kỹ năng mềm:**
+
+-   Kỹ năng viết tài liệu kỹ thuật (Technical Documentation).
+-   Phân rã vấn đề và debug có hệ thống trên môi trường Cloud.
+-   Chiến lược tối ưu hóa chi phí Cloud.
+-   Kỹ năng làm việc trong môi trường doanh nghiệp.
+
+---
+
+### Điểm cần cải thiện
+
+-   **Kỷ luật:** Cần quản lý thời gian tốt hơn và tuân thủ nghiêm ngặt lịch họp cũng như deadline.
+-   **Giao tiếp:** Cải thiện kỹ năng trình bày kỹ thuật và giải thích các khái niệm phức tạp cho người không chuyên.
+-   **Giải quyết vấn đề:** Xây dựng phương pháp tiếp cận có cấu trúc hơn khi debug lỗi giữa các service.
+-   **Mở rộng quan hệ:** Tích cực xây dựng mối quan hệ chuyên nghiệp trong cộng đồng AWS.
+
+---
+
+### Lời cảm ơn
+
+Tôi xin gửi lời cảm ơn chân thành đến:
+
+-   Các anh/chị Mentor tại AWS đã tận tình hướng dẫn và chỉ bảo.
+-   Các thành viên trong team đã luôn hỗ trợ và phối hợp nhịp nhàng.
+-   AWS đã mang lại cơ hội học tập tuyệt vời này.
+
+Kỳ thực tập này là một trải nghiệm quý giá giúp tôi nâng cao đáng kể kỹ năng về Điện toán đám mây và Lập trình Full-stack. Tôi tin rằng những kiến thức và kinh nghiệm tích lũy được sẽ là hành trang vững chắc cho sự nghiệp sau này.
