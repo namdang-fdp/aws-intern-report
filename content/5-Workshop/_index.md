@@ -5,27 +5,35 @@ weight: 5
 chapter: false
 pre: " <b> 5. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Secure Hybrid Access to S3 using VPC Endpoints
+# Building a Scalable AI-Powered IELTS Platform on AWS
 
-#### Overview
+#### Introduction
 
-**AWS PrivateLink** provides private connectivity to AWS services from VPCs and your on-premises networks, without exposing your traffic to the Public Internet.
+Welcome to the **IELTS BandUp Deployment Workshop**.
 
-In this lab, you will learn how to create, configure, and test VPC endpoints that enable your workloads to reach AWS services without traversing the Public Internet.
+**IELTS BandUp** is a comprehensive EdTech platform designed to support learners throughout their entire IELTS preparation journey. The application provides a diverse ecosystem of features including full Mock Tests, Dictation practice, Blogs, and interactive Flashcards.
 
-You will create two types of endpoints to access Amazon S3: a Gateway VPC endpoint, and an Interface VPC endpoint. These two types of VPC endpoints offer different benefits depending on if you are accessing Amazon S3 from the cloud or your on-premises location
-+ **Gateway** - Create a gateway endpoint to send traffic to Amazon S3 or DynamoDB using private IP addresses.You route traffic from your VPC to the gateway endpoint using route tables.
-+ **Interface** - Create an interface endpoint to send traffic to endpoint services that use a Network Load Balancer to distribute traffic. Traffic destined for the endpoint service is resolved using DNS.
+To further enhance the learning experience, the system integrates **Generative AI** as a comprehensive study assistant. By leveraging AWS Bedrock and Google Gemini models, the platform offers intelligent feedback and personalized support, ensuring a holistic approach to exam preparation rather than just simple scoring.
+
+In this workshop, we will demonstrate the end-to-end journey of deploying this modern, microservices-based architecture to the AWS Cloud. We will cover infrastructure setup, container orchestration, database management, serverless AI integration, and automated delivery pipelines.
+
+#### Workshop Objectives
+
+By following this workshop, we will achieve the following:
+
+-   **Network Architecture:** Configure a secure VPC with Public/Private subnets, NAT Gateways, and Application Load Balancers to ensure secure traffic flow.
+-   **Container Orchestration:** Deploy Frontend (Next.js) and Backend (Spring Boot) services using **AWS ECS Fargate**.
+-   **Data Management:** Configure high-availability databases using **Amazon RDS** (Primary/Standby) and **Amazon ElastiCache**.
+-   **AI Integration:** Implement a Serverless architecture using **AWS Lambda, API Gateway, and Amazon Bedrock** to handle AI evaluation tasks asynchronously.
+-   **DevOps:** Automate the build and deployment process with **AWS CodePipeline and CodeBuild**.
 
 #### Content
 
-1. [Workshop overview](5.1-Workshop-overview)
-2. [Prerequiste](5.2-Prerequiste/)
-3. [Access S3 from VPC](5.3-S3-vpc/)
-4. [Access S3 from On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (Bonus)](5.5-Policy/)
-6. [Clean up](5.6-Cleanup/)
+1. [Project Overview & Architecture](5.1-Workshop-overview/)
+2. [Prerequisites & Infrastructure Setup](5.2-Prerequiste/)
+3. [Network & Security Infrastructure](5.3-Network/)
+4. [Frontend Deployment (ECS Fargate)](5.4-Setup-FE/)
+5. [Backend Deployment (ECS Fargate)](5.5-Setup-BE/)
+6. [AI Services Integration (Serverless)](5.6-Setup-AI/)
+7. [CI/CD Pipeline Implementation](5.7-CICD/)
